@@ -89,3 +89,28 @@ function setQuery(){
  const newUrl = `${location.pathname}?${params.toString()}`;
  history.replaceState(null, '', newUrl);
 }
+
+
+async function getPage(i) {
+  if (i === '-') {
+    activePage--;
+  } else if (i === '+') {
+    activePage++;
+  } else {
+    activePage = i;
+  }
+  await getTeachers();
+}
+
+getPage()
+
+function getPagination() {
+  let pages = Math.ceil(teachersLength / LIMIT);
+  pagination.innerHTML = `<li class="page-item ${activePage === 1 ? "disabled" : ""}"><button onClick="getPage('-')" class="page-link">Previous</button></li>`;
+
+  for (let i = 1; i <= pages; i++) {
+    pagination.innerHTML += `<li class="page-item ${i === activePage ? "active" : ""}"><button onClick="getPage(${i})" class="page-link">${i}</button></li>`;
+  }
+
+  pagination.innerHTML += `<li class="page-item ${activePage === pages ? "disabled" : ""}"><button onClick="getPage('+')" class="page-link">Next</button></li>`;
+}

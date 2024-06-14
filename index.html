@@ -13,7 +13,7 @@
 
 <body>
   <header>
-    <nav class="navbar bg-body-tertiary navbar-expand-md  fixed-top">
+    <nav class="navbar  bg-body-tertiary navbar-expand-md  fixed-top custom-navbar">
       <div class="container">
         <a class="navbar-brand" href="./index.html">Teacher</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
@@ -50,7 +50,7 @@
 
           <span class="input-group-text">
             <select class="form-select" id="teacher-sort-select">
-              <option selected value=""> Open this select menu</option>
+              <option value=""> Open this select menu</option>
               <option value="firstname-asc">Firstname A-Z</option>
               <option value="firstname-desc">Firstname Z-A</option>
               <option value="createdAt-asc">Created Asc</option>
@@ -58,8 +58,16 @@
             </select>
           </span>
 
-          <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#teacherModal"
-            type="button" id="show-modal-btn">Add</button>
+          <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#teacherModal" type="button"
+            id="show-modal-btn">Add</button>
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+          <ul class="teachers-pagination pagination"></ul>
+           <select id="limit-select">
+            <option value="8">8</option>
+            <option value="16">16</option>
+            <option value="32">32</option>
+           </select>
         </div>
         <div class="row  teachers-row">
 
@@ -71,7 +79,7 @@
     <div class="modal fade" id="teacherModal">
       <div class="modal-dialog">
         <form id="teacherForm" novalidate>
-        <div class="modal-content">
+          <div class="modal-content">
             <div class="modal-header">
               <h1 class="modal-title fs-5" id="exampleModalLabel">Teacher data</h1>
               <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -79,37 +87,36 @@
             <div class="modal-body">
               <div class="row g-3 needs-validation">
                 <div class="col-12">
-                  <label for="image"  class="form-label">Image</label>
-                  <input type="text"  class="form-control" id="image" required placeholder="https://www.pexels.com/photo/selective-focus-photography-of-person-holding-turned-on-smartphone-1092644/">
+                  <label for="image" class="form-label">Image</label>
+                  <input type="text" class="form-control" id="image" required
+                    placeholder="https://www.pexels.com/photo/selective-focus-photography-of-person-holding-turned-on-smartphone-1092644/">
                   <div class="valid-feedback">Looks good!</div>
                   <div class="valid-feedback">Please fill!</div>
                 </div>
                 <div class="col-12">
                   <label for="firstName" class="form-label">First name</label>
-                  <input  type="text" class="form-control" id="firstName" required placeholder="Mark">
+                  <input type="text" class="form-control" id="firstName" required placeholder="Mark">
                   <div class="valid-feedback">Looks good!</div>
                   <div class="valid-feedback">Please fill!</div>
                 </div>
 
                 <div class="col-12">
                   <label for="lastName" class="form-label">Last name</label>
-                  <input  type="text" class="form-control" id="lastName" required placeholder="Otto">
+                  <input type="text" class="form-control" id="lastName" required placeholder="Otto">
                   <div class="valid-feedback">Looks good!</div>
                   <div class="valid-feedback">Please fill!</div>
                 </div>
 
                 <div class="col-12">
                   <label for="email" class="form-label">Email</label>
-                  <input name="email" type="email" class="form-control" required
-                    placeholder="Moses70@yahoo.com">
+                  <input name="email" type="email" class="form-control" required placeholder="Moses70@yahoo.com">
                   <div class="valid-feedback">Looks good!</div>
                   <div class="valid-feedback">Please fill!</div>
                 </div>
 
                 <div class="col-12">
                   <label for="phoneNumber" class="form-label">Phone</label>
-                  <input type="tel" class="form-control" id="phoneNumber" required
-                    placeholder="1-367-698-6753 x12441 ">
+                  <input type="tel" class="form-control" id="phoneNumber" required placeholder="1-367-698-6753 x12441 ">
                   <div class="valid-feedback">Looks good!</div>
                   <div class="valid-feedback">Please fill!</div>
                 </div>
@@ -142,7 +149,7 @@
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
 
-   <script src="js/const.js"></script>
+  <script src="js/const.js"></script>
   <script src="js/teacher.js"></script>
 </body>
 

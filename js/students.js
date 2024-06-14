@@ -10,10 +10,15 @@ let studentsRow=document.querySelector(".students-row");
 let studentsQuantity=document.querySelector(".students-quantity");
 let studentsSearchInput=document.getElementById("students-search-input");
 let teachersSelect=document.getElementById("teachers-select");
+let pagination=document.querySelector(".students-pagination");
+let limitSelect=document.getElementById("limit-select");
 
 let search= params.get("search")  || "";
 let teacher=teacherId;
 let selected=null;
+let activePage=+params.get("activePage") || 1;
+let studentsLength=0;
+let limit=+params.get('limit') || LIMIT2;
 
 studentsSearchInput.value=search;
 
@@ -25,7 +30,7 @@ function getStudentCard({firstName,avatar,lastName,isWork,phoneNumber,teacherId,
     <div class="card-body">
       <h5 class="card-title">${firstName} ${lastName}</h5>
       <p class="card-phone"><span>Phone:</span>${phoneNumber}</p>
-      <p class="card-isMarr">isWork: ${isWork}</p>
+      <p class="card-boolen"><span>isWork:</span> ${isWork}</p>
       <button class="btn btn-warning"
       data-bs-toggle="modal" data-bs-target="#studentModal"
       onClick="editStudent(${id})"
@@ -33,7 +38,6 @@ function getStudentCard({firstName,avatar,lastName,isWork,phoneNumber,teacherId,
       <button
       onClick="deleteStudent(${id})"
        class="btn btn-danger">Delete</button>
-      <a href="./students.html?teacherId=${id}" class="btn btn-primary">Students </a>
     </div>
    </div>
   </div>
@@ -47,25 +51,63 @@ async function getStudents(){
     setQuery();
 
     studentsRow.innerHTML="loading...";
-    let params={firstName:search}
-    let {data} = await request.get(`teacher/${teacher}/student` , {params});
-    studentsQuantity.textContent=data.length;
+    let params={firstName:search,page:activePage,limit}
+    let {data} = await request.get(`teacher/${teacher}/student` , {params : {firstName:search}});
+    let {data : pageStudents} = await request.get(`teacher/${teacher}/student` , {params});
+
+    studentsLength=data.length;
+
+    studentsQuantity.textContent=studentsLength;
+
 
     studentsRow.innerHTML="";
-    data.map((student)=>{
+
+    getPaginition();
+
+    pageStudents.map((student)=>{
       studentsRow.innerHTML += getStudentCard(student)
     })
   }
   catch(err){
     studentsQuantity.textContent=0;
-    studentsRow.innerHTML="Not found";
+    studentsQuantity.textContent=0;
+    studentsRow.innerHTML=`<p class="students-error">Not found students</p>`;
+    pagination.innerHTML="";
     console.log(err);
   }
 }
 getStudents()
 
+function getPaginition(){
+  let pages=Math.ceil( studentsLength / limit);
+  if(studentsLength<=limit){
+    pagination.innerHTML="";
+  }else{
+    pagination.innerHTML =`<li class="page-item ${activePage ===1 ? "disabled" : ""}"><button class="page-link" onClick="getPage('-') ">Previous</button></li>`;
+
+    for(let i=1;i<=pages;i++){
+      pagination.innerHTML += `<li class="page-item ${i === activePage ? "active" : ""}"><button  class="page-link" onClick="getPage(${i})">${i}</button></li>`;
+    }
+
+    pagination.innerHTML += `<li class="page-item ${activePage === pages ? "disabled" : ""}"><button class="page-link" onClick="getPage('+')">Next</button></li>`
+  }
+}
+function getPage( i ){
+  if(i==='-'){
+    activePage--;
+  }
+  else if(i === '+'){
+    activePage++
+  }else{
+    activePage = i;
+  }
+  getStudents();
+}
+
+//search
 studentsSearchInput.addEventListener('input',(e)=>{
   search = e.target.value;
+  activePage=1;
   getStudents();
 });
 
@@ -88,32 +130,27 @@ teachersSelect.addEventListener('change',function(e){
   getStudents();
 });
 
-function setQuery(){
-  params.set('search',search)
-  params.set('teacherId', teacher);
-  const newUrl = `${location.pathname}?${params.toString()}`;
-  history.replaceState(null, '', newUrl);
- }
+
 
 studentForm.addEventListener('submit',async (e)=>{
   e.preventDefault();
- let image= e.target.elements.image.value;
+ let avatar= e.target.elements.avatar.value;
  let firstName= e.target.elements.firstName.value;
  let lastName= e.target.elements.lastName.value;
  let isWork= e.target.elements.isWork.value;
  let phoneNumber= e.target.elements.phoneNumber.value;
 
- const student={image,firstName,lastName,isWork,phoneNumber}
- if(selected===null){
+ const student={avatar,firstName,lastName,isWork,phoneNumber}
+ if(selected === null){
    await request.post(`teacher/${teacher}/student`,student);
  }else{
    await request.put(`teacher/${teacher}/student/${selected}`,student)
  }
 
- getStudents();
+  getStudents();
   bootstrap.Modal.getInstance(studentModal).hide();
   studentForm.reset();
-});
+})
 
 async function deleteStudent(id) {
   let isDeleted = confirm("Are you sure you want to delete this teacher ?");
@@ -140,4 +177,23 @@ showModalBtnStudent.addEventListener('click',function(){
   selected=null;
   studentForm.reset();
   studentFormSubmitBtn.textContent="Add";
+});
+
+limitSelect.addEventListener('change',function(e){
+  activePage=1;
+  limit =e.target.value;
+  getStudents();
 })
+
+function setQuery(){
+  params.set('search',search)
+  params.set('teacherId', teacher);
+  params.set('limit', limit);
+  const newUrl = `${location.pathname}?${params.toString()}`;
+  history.replaceState(null, '', newUrl);
+ }
+
+ window.onload = () => {
+  limitSelect.value = limit;
+  getStudents();
+};

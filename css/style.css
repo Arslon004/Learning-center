@@ -1,21 +1,89 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+*,*::before,*::after{
+  box-sizing: border-box;
+}
+
+nav{
+  transition: 1s linear padding;
+}
+.custom-navbar{
+  padding: 25px 0;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.3);
+}
 main section:first-child{
-  padding-top: 80px;
+  padding-top: 130px;
+}
+
+.card-title{
+  text-decoration: underline;
 }
 .card-email{
   font-weight: bold;
   color:cadetblue;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.card img{
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+.card{
+  background-color: rgba(0, 0, 0, 0.15);
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+  transition: 2s linear transform,1s linear box-shadow;
+}
+.teacher-card:hover{
+  transform: scale(1.05);
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.6);
+}
+.card-email {
+  padding: 2px 0;
+  margin-top: 20px;
+  background-color:blueviolet;
+  color: #fff;
+  border-radius: 5px;
 }
 .card-phone{
   color: green;
   font-weight: 600;
+  text-decoration: underline;
 }
-.card-phone span{
-  margin-right: 10px;
+.card-phone span,.card-boolen span{
+  padding: 3px;
+  margin-right: 5px;
+  border-radius: 5px;
   font-weight: 700;
-  color: #666;
+  color: #fff;
+  background-color: #666;
 }
-.teacher-card img{
+
+.card-boolen{
+ color: red;
+ font-weight: bold;
+}
+
+.teacher-card .card-title{
+  margin-bottom: 20px;
+}
+.not-found{
+  display: none;
   width: 100%;
-  height: 250px;
-  object-fit: cover;
+  text-align: center;
+  font-weight: bold;
+  color: blueviolet;
+  font-size: 3rem;
+}
+
+.students-error,.teachers-error{
+  text-align: center;
+  margin-top: 50px;
+  font-size: 30px;
+  font-weight: 500;
+  text-shadow: 3px 4px 3px rgba(0, 0, 0, 0.6);
 }
