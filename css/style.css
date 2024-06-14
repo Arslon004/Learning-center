@@ -80,7 +80,7 @@ main section:first-child{
   font-size: 3rem;
 }
 
-.students-error,.teachers-error{
+.students-error,.teachers-error,.loading{
   text-align: center;
   margin-top: 50px;
   font-size: 30px;

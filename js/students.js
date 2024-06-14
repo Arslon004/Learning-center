@@ -50,7 +50,7 @@ async function getStudents(){
 
     setQuery();
 
-    studentsRow.innerHTML="loading...";
+    studentsRow.innerHTML=`<p class="loading">loading...</p>`;
     let params={firstName:search,page:activePage,limit}
     let {data} = await request.get(`teacher/${teacher}/student` , {params : {firstName:search}});
     let {data : pageStudents} = await request.get(`teacher/${teacher}/student` , {params});

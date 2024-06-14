@@ -57,7 +57,7 @@ async function getTeachers() {
   try {
     setQuery();
 
-    teachersRow.innerHTML = "loading...";
+    teachersRow.innerHTML = `<p class="loading">loading...</p>`;
     // let params={sort=By:'email',order:'desc'}
     let [orderBy, order] = teacherSort.split("-");
     let params = {
